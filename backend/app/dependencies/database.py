@@ -1,0 +1,57 @@
+"""Database dependencies for session management and connection lifecycle."""
+
+from typing import Generator
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker, scoped_session
+
+from app.config import settings
+
+# Create database engine
+engine = create_engine(
+    settings.DATABASE_URL,
+    echo=settings.DEBUG,
+    pool_pre_ping=True,
+    pool_size=5,
+    max_overflow=10,
+)
+
+# Create session factory
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Create scoped session for thread safety
+Session = scoped_session(SessionLocal)
+
+
+def get_db() -> Generator[Session, None, None]:
+    """
+    Dependency that provides a database session.
+
+    This function is used as a FastAPI dependency to ensure each
+    request gets its own database session that is properly closed
+    after the request completes.
+
+    Yields:
+        Session: SQLAlchemy database session.
+
+    Example:
+        @router.get("/tasks")
+        def list_tasks(db: Session = Depends(get_db)):
+            return db.query(Task).all()
+    """
+    db = Session()
+    try:
+        yield db
+    finally:
+        db.close()
+        Session.remove()
+
+
+def init_db() -> None:
+    """Initialize database tables.
+
+    Creates all tables defined in SQLModel metadata.
+    This should be called during application startup.
+    """
+    from app.models import Base
+    Base.metadata.create_all(bind=engine)
