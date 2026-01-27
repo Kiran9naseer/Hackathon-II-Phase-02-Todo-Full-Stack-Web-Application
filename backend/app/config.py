@@ -26,7 +26,7 @@ class Settings(BaseSettings):
 
     # Server configuration
     API_HOST: str = "0.0.0.0"
-    API_PORT: int = 8000
+    API_PORT: int = 7860
     DEBUG: bool = False
 
     class Config:

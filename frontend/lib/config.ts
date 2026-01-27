@@ -8,19 +8,17 @@ export interface EnvConfig {
 
 // Runtime environment access with type safety
 export const getEnv = (): EnvConfig => ({
-  NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
+  NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || "",
   BETTER_AUTH_URL: process.env.BETTER_AUTH_URL || "http://localhost:8000/api/v1/auth",
   NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || "Todo App",
-  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || (typeof window !== 'undefined' ? window.location.origin : "http://localhost:3000"),
 });
 
 // Validate required environment variables at build time
 export const validateEnv = (): void => {
   const requiredVars: (keyof EnvConfig)[] = [
-    "NEXT_PUBLIC_API_URL",
     "BETTER_AUTH_URL",
     "NEXT_PUBLIC_APP_NAME",
-    "NEXT_PUBLIC_APP_URL",
   ];
 
   const missingVars = requiredVars.filter((key) => !process.env[key]);

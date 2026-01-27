@@ -45,32 +45,36 @@ class AuthResponse(BaseModel):
 @router.post("/register", response_model=AuthResponse)
 @limiter.limit("5/minute")
 async def register(request: Request, data: RegisterRequest, response: Response):
-    # Use SQL database for persistent storage
-    from app.dependencies.database import Session
+    from app.dependencies.database import Session, SessionLocal
     from app.services.user_service import UserService
+    
+    # Use Session() for scoped session, but WE MUST CALL remove() in finally block
+    email = data.email.strip().lower()
     
     db = Session()
     try:
         user_service = UserService(db)
-        existing_user = user_service.get_by_email(data.email)
-        
-        if existing_user:
+        if user_service.get_by_email(email):
+            logger.warning(f"Registration failed: Email {email} already exists")
             raise HTTPException(status_code=409, detail="Email already exists")
 
         # Create new user in SQL DB
-        user_id = uuid.uuid4()
-        hashed_password = hash_password(data.password)
-        user = user_service.create(user_id, data.email, hashed_password)
+        user = user_service.create(
+            user_id=uuid.uuid4(),
+            email=email,
+            hashed_password=hash_password(data.password),
+        )
         
-        logger.info(f"Created new persistent user for {data.email}")
+        logger.info(f"Created new persistent user for {email}")
             
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Database error during registration: {e}")
-        raise HTTPException(status_code=500, detail="Database error during registration")
+        logger.error(f"DATABASE ERROR DURING REGISTRATION: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
     finally:
         db.close()
+        Session.remove() # CRITICAL: Clear scoped session for this thread
 
     expires_minutes = settings.ACCESS_TOKEN_EXPIRE_MINUTES
     token = create_access_token(
@@ -110,12 +114,19 @@ async def login(request: Request, data: LoginRequest, response: Response):
     from app.dependencies.database import Session
     from app.services.user_service import UserService
     
+    email = data.email.strip().lower()
+
     db = Session()
     try:
         user_service = UserService(db)
-        user = user_service.get_by_email(data.email)
+        user = user_service.get_by_email(email)
 
-        if not user or not verify_password(data.password, user.hashed_password):
+        if not user:
+            logger.warning(f"Login failed: User with email {email} not found")
+            raise HTTPException(status_code=401, detail="Invalid email or password")
+            
+        if not verify_password(data.password, user.hashed_password):
+            logger.warning(f"Login failed: Invalid password for user {email}")
             raise HTTPException(status_code=401, detail="Invalid email or password")
 
         expires_minutes = settings.ACCESS_TOKEN_EXPIRE_MINUTES
@@ -148,8 +159,14 @@ async def login(request: Request, data: LoginRequest, response: Response):
             "token": token,
             "expires_at": expires_at,
         }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"DATABASE ERROR DURING LOGIN: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
     finally:
         db.close()
+        Session.remove() # CRITICAL: Clear scoped session for this thread
 
 
 @router.post("/logout")

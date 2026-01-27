@@ -44,12 +44,9 @@ async def create_task(
 
 @router.get("/", response_model=TaskListResponse)
 async def list_tasks(
-    search: Optional[str] = None,
     status: Optional[str] = None,
     priority: Optional[str] = None,
     category_id: Optional[UUID] = None,
-    sort_by: Optional[str] = "created_at",
-    sort_order: Optional[str] = "desc",
     limit: int = 20,
     offset: int = 0,
     user_id: UUID = Depends(get_current_user),
@@ -59,12 +56,9 @@ async def list_tasks(
     List tasks for the authenticated user with optional filtering.
 
     Query Parameters:
-        search: Search by task title or description
         status: Filter by task status (pending, in_progress, completed, archived)
         priority: Filter by priority (low, medium, high)
         category_id: Filter by category UUID
-        sort_by: Sort by field (created_at, updated_at, due_date, title, priority, status) default: created_at
-        sort_order: Sort order (asc, desc) default: desc
         limit: Maximum number of results (default 20)
         offset: Number of results to skip (default 0)
 
@@ -73,12 +67,9 @@ async def list_tasks(
     """
     service = TaskService(db, user_id)
     return service.list(
-        search=search,
         status=status,
         priority=priority,
         category_id=category_id,
-        sort_by=sort_by,
-        sort_order=sort_order,
         limit=limit,
         offset=offset,
     )
@@ -149,25 +140,3 @@ async def delete_task(
     if not success:
         raise NotFoundException(detail="Task not found")
     return None
-
-
-@router.patch("/{task_id}/complete", response_model=TaskResponse)
-async def complete_task(
-    task_id: UUID,
-    user_id: UUID = Depends(get_current_user),
-    db: Session = Depends(get_db),
-):
-    """
-    Mark a task as complete.
-
-    Only updates tasks owned by the authenticated user.
-    Returns 404 for non-existent or non-owned tasks.
-
-    Returns:
-        TaskResponse: The updated task with completed status.
-    """
-    service = TaskService(db, user_id)
-    task = service.complete(task_id)
-    if not task:
-        raise NotFoundException(detail="Task not found")
-    return task

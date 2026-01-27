@@ -10,7 +10,7 @@ from typing import Optional
 from uuid import UUID
 
 from sqlalchemy.orm import Session
-from sqlalchemy import select, or_, func
+from sqlalchemy import select, func
 
 from app.models.task import Task, TaskStatus
 from app.schemas.task_schema import TaskCreate, TaskUpdate
@@ -58,12 +58,9 @@ class TaskService:
 
     def list(
         self,
-        search: Optional[str] = None,
         status: Optional[str] = None,
         priority: Optional[str] = None,
         category_id: Optional[UUID] = None,
-        sort_by: Optional[str] = "created_at",
-        sort_order: Optional[str] = "desc",
         limit: int = 20,
         offset: int = 0,
     ) -> dict:
@@ -84,9 +81,6 @@ class TaskService:
         base_query = select(Task).where(Task.user_id == self.user_id)
 
         # Apply optional filters
-        if search:
-            base_query = base_query.where(or_(Task.title.contains(search), Task.description.contains(search)))
-        
         if status:
             base_query = base_query.where(Task.status == status)
 
@@ -101,24 +95,12 @@ class TaskService:
         total = self.db.execute(count_query).scalar() or 0
 
         # Apply ordering and pagination
-        # Determine sort column
-        sort_columns = {
-            "created_at": Task.created_at,
-            "updated_at": Task.updated_at,
-            "due_date": Task.due_date,
-            "title": Task.title,
-            "priority": Task.priority,
-            "status": Task.status,
-        }
-        
-        sort_column = sort_columns.get(sort_by, Task.created_at)
-        
-        if sort_order.lower() == "asc":
-            query = base_query.order_by(sort_column.asc())
-        else:
-            query = base_query.order_by(sort_column.desc())
-        
-        query = query.offset(offset).limit(limit)
+        query = (
+            base_query
+            .order_by(Task.created_at.desc())
+            .offset(offset)
+            .limit(limit)
+        )
 
         tasks = list(self.db.execute(query).scalars().all())
 

@@ -1,5 +1,7 @@
+import logging
 import bcrypt
 
+logger = logging.getLogger(__name__)
 
 def hash_password(password: str) -> str:
     """
@@ -28,9 +30,14 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
         True if password matches, False otherwise.
     """
     try:
+        if not hashed_password:
+            logger.error("Verification failed: Hashed password is empty")
+            return False
+            
         return bcrypt.checkpw(
             plain_password.encode("utf-8"), 
             hashed_password.encode("utf-8")
         )
-    except Exception:
+    except Exception as e:
+        logger.error(f"Password verification error: {e}")
         return False

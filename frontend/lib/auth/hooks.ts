@@ -9,6 +9,8 @@ export async function login(email: string, password: string) {
     
     if (typeof window !== 'undefined' && response.data.token) {
       localStorage.setItem('token', response.data.token);
+      // Set cookie for middleware
+      document.cookie = `token=${response.data.token}; path=/; max-age=86400; SameSite=Lax`;
     }
 
     return response.data;
@@ -34,6 +36,8 @@ export async function register(email: string, password: string, name?: string) {
     // Store token in localStorage for use in interceptors
     if (typeof window !== 'undefined' && response.data.token) {
       localStorage.setItem('token', response.data.token);
+      // Set cookie for middleware
+      document.cookie = `token=${response.data.token}; path=/; max-age=86400; SameSite=Lax`;
     }
     
     return response.data;
@@ -48,12 +52,15 @@ export async function logout() {
     // Clear token from localStorage
     if (typeof window !== 'undefined') {
       localStorage.removeItem('token');
+      // Clear cookie
+      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
   } catch (error: any) {
     console.error("Logout error:", error);
     // Still clear local token even if server call fails
     if (typeof window !== 'undefined') {
       localStorage.removeItem('token');
+      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
   }
 }
@@ -73,6 +80,7 @@ export async function getSession() {
       // Only access localStorage if in browser environment
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
+        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
       }
       return null;
     }

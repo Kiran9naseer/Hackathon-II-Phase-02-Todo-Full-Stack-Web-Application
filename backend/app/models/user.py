@@ -20,14 +20,10 @@ if TYPE_CHECKING:
 
 class User(SQLModel, table=True):
     """User model for ownership reference.
-
-    Attributes:
-        id: Unique user identifier (UUID).
-        email: User's email address (unique).
-        created_at: Timestamp when user record was created.
-        tasks: Relationship to user's tasks.
-        categories: Relationship to user's categories.
+    
+    Using explicitly quoted tablename to avoid PostgreSQL reserved keyword issues.
     """
+    __tablename__ = "user"
 
     id: UUID = Field(default_factory=uuid4, primary_key=True)
     email: str = Field(unique=True, index=True, max_length=255)

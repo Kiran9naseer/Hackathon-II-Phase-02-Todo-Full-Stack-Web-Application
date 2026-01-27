@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { getEnv } from "@/lib/config";
-import { AuthProvider } from "@/lib/auth/provider";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { getEnv } from '@/lib/config';
+import { AuthProvider } from '@/lib/auth/provider';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: getEnv().NEXT_PUBLIC_APP_NAME,
-    template: `%s | ${getEnv().NEXT_PUBLIC_APP_NAME}`,
+    default: getEnv().NEXT_PUBLIC_APP_NAME || 'TodoMaster',
+    template: `%s | ${getEnv().NEXT_PUBLIC_APP_NAME || 'TodoMaster'}`,
   },
-  description: "TodoMaster - Organize your life, boost productivity, and achieve your goals with our intuitive task management solution. Smart task management, real-time progress tracking, and priority organization.",
+  description: 'TodoMaster - Organize your life, boost productivity, and achieve your goals with our intuitive task management solution.',
 };
 
 export default function RootLayout({
@@ -21,8 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
+      <body className={`${inter.className} bg-gray-900`}>
+        <div className="relative min-h-screen w-full bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900">
+          <AuthProvider>{children}</AuthProvider>
+        </div>
       </body>
     </html>
   );

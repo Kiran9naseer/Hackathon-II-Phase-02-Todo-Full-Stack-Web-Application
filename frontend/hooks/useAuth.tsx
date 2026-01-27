@@ -99,10 +99,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(data.session.user);
         }
 
-        // Get the redirect parameter or default to /tasks
-        const params = new URLSearchParams(window.location.search);
-        const redirectTo = params.get("redirect") || "/tasks";
-        router.push(redirectTo);
+        router.push("/tasks"); // Always redirect to /tasks on successful login
       } finally {
         setIsLoading(false);
       }
@@ -143,12 +140,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await authClient.signOut();
       setUser(null);
-      router.push("/login");
+      router.push("/"); // Redirect to landing page on logout
     } catch (error) {
       console.error("Logout error:", error);
       // Still clear local state even if server call fails
       setUser(null);
-      router.push("/login");
+      router.push("/"); // Redirect to landing page on logout
     } finally {
       setIsLoading(false);
     }

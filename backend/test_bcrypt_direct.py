@@ -1,28 +1,16 @@
 import bcrypt
 
-try:
-    password = b"password"
+def test_bcrypt():
+    password = "MyTestPassword123!"
     salt = bcrypt.gensalt()
-    hashed = bcrypt.hashpw(password, salt)
-    print(f"Hashed: {hashed}")
+    hashed = bcrypt.hashpw(password.encode("utf-8"), salt)
     
-    verified = bcrypt.checkpw(password, hashed)
-    print(f"Verified: {verified}")
+    print(f"PASSWORD: {password}")
+    print(f"SALT: {salt}")
+    print(f"HASHED: {hashed.decode('utf-8')}")
     
-    # Try with a string that is 71 chars
-    long_p = b"a" * 71
-    hashed_long = bcrypt.hashpw(long_p, salt)
-    print("Hashed 71 chars")
-    
-    # Try with 73 chars
-    try:
-        too_long_p = b"a" * 73
-        hashed_too_long = bcrypt.hashpw(too_long_p, salt)
-        print("Hashed 73 chars (successfully?!)")
-    except ValueError as e:
-        print(f"Caught expected error for 73 chars: {e}")
-        
-except Exception as e:
-    print(f"General failure: {e}")
-    import traceback
-    traceback.print_exc()
+    match = bcrypt.checkpw(password.encode("utf-8"), hashed)
+    print(f"MATCH: {match}")
+
+if __name__ == "__main__":
+    test_bcrypt()

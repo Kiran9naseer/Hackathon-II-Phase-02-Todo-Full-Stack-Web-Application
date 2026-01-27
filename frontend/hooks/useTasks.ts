@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { taskApi } from "@/lib/api/tasks";
+import { useSession } from "@/lib/auth/provider";
 import type { Task, CreateTaskRequest, UpdateTaskRequest, TaskFilters } from "@/types/task";
 
 interface UseTasksReturn {
@@ -16,21 +17,28 @@ interface UseTasksReturn {
 }
 
 export function useTasks(): UseTasksReturn {
+  const { isAuthenticated } = useSession();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchTasks = useCallback(async (filters?: TaskFilters) => {
+  const fetchTasks = useCallback(async (filters?: TaskFilters): Promise<void> => {
+    if (!isAuthenticated) {
+      console.log("Skipping fetchTasks: User not authenticated");
+      return;
+    }
+    
     setIsLoading(true);
     setError(null);
     try {
       const response = await taskApi.getAll(filters);
       setTasks(response.tasks);
-      return response;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Failed to fetch tasks";
+    } catch (err: any) {
+      // If it's a 401 during logout transition, we might want to be silent
+      // But for now, just set the error state and DON'T throw
+      const message = err.response?.data?.detail || err.message || "Failed to fetch tasks";
       setError(message);
-      throw err;
+      console.error("fetchTasks failed:", err);
     } finally {
       setIsLoading(false);
     }

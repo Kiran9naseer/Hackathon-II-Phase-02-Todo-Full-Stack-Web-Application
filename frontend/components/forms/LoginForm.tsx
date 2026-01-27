@@ -30,7 +30,7 @@ export function LoginForm() {
   // 🔥 Redirect ONLY when session exists
   useEffect(() => {
     if (session) {
-      router.push("/tasks");
+      router.push("/dashboard");
     }
   }, [session, router]);
 
@@ -51,45 +51,58 @@ export function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
       {error && (
-        <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
+        <div className="p-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl animate-pulse">
           {error}
         </div>
       )}
 
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+      <div className="space-y-1.5">
+        <Label htmlFor="email" className="text-slate-700 font-semibold ml-1">Email Address</Label>
         <Input
           id="email"
           type="email"
+          placeholder="name@company.com"
+          className="premium-input w-full"
           disabled={isLoading}
           {...register("email")}
         />
-        {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
+        {errors.email && <p className="text-xs text-red-500 font-medium ml-1">{errors.email.message}</p>}
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between ml-1">
+          <Label htmlFor="password" className="text-slate-700 font-semibold">Password</Label>
+          <a href="#" className="text-xs font-semibold text-primary-600 hover:text-primary-700">Forgot?</a>
+        </div>
         <Input
           id="password"
           type="password"
+          placeholder="••••••••"
+          className="premium-input w-full"
           disabled={isLoading}
           {...register("password")}
         />
         {errors.password && (
-          <p className="text-sm text-red-600">{errors.password.message}</p>
+          <p className="text-xs text-red-500 font-medium ml-1">{errors.password.message}</p>
         )}
       </div>
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "Signing in..." : "Sign In"}
+      <Button type="submit" className="premium-button w-full bg-primary-600 text-white hover:bg-primary-700" disabled={isLoading}>
+        {isLoading ? (
+          <div className="flex items-center justify-center space-x-2">
+            <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"></span>
+            <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+            <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+          </div>
+        ) : "Sign In to TodoMaster"}
       </Button>
 
-      <p className="text-center text-sm text-gray-600">
-        Do not have an account?{" "}
-        <Link href="/register" className="text-primary-600 font-medium">
-          Sign up
+      <p className="text-center text-sm text-slate-500 font-medium">
+        New here?{" "}
+        <Link href="/register" className="text-primary-600 font-bold hover:underline underline-offset-4 decoration-2">
+          Create account
         </Link>
       </p>
     </form>

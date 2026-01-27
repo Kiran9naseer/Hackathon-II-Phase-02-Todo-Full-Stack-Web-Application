@@ -21,7 +21,7 @@ export function RegisterForm() {
   // Redirect to tasks after successful registration
   useEffect(() => {
     if (session) {
-      router.push("/tasks");
+      router.push("/dashboard");
     }
   }, [session, router]);
 
@@ -50,93 +50,105 @@ export function RegisterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
       {error && (
         <div
-          className="p-3 text-sm text-red-600 bg-red-50 rounded-md"
+          className="p-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl animate-pulse"
           role="alert"
         >
           {error}
         </div>
       )}
 
-      <div className="space-y-2">
-        <Label htmlFor="name">Name (optional)</Label>
+      <div className="space-y-1.5">
+        <Label htmlFor="name" className="text-slate-700 font-semibold ml-1">Full Name</Label>
         <Input
           id="name"
           type="text"
-          placeholder="Your name"
+          placeholder="John Doe"
+          className="premium-input w-full"
           autoComplete="name"
           disabled={isLoading}
           {...register("name")}
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+      <div className="space-y-1.5">
+        <Label htmlFor="email" className="text-slate-700 font-semibold ml-1">Email Address</Label>
         <Input
           id="email"
           type="email"
-          placeholder="you@example.com"
+          placeholder="you@company.com"
+          className="premium-input w-full"
           autoComplete="email"
           disabled={isLoading}
           {...register("email")}
           aria-invalid={errors.email ? "true" : "false"}
         />
         {errors.email && (
-          <p className="text-sm text-red-600" role="alert">
+          <p className="text-xs text-red-500 font-medium ml-1" role="alert">
             {errors.email.message}
           </p>
         )}
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          type="password"
-          placeholder="At least 8 characters"
-          autoComplete="new-password"
-          disabled={isLoading}
-          {...register("password")}
-          aria-invalid={errors.password ? "true" : "false"}
-        />
-        {errors.password && (
-          <p className="text-sm text-red-600" role="alert">
-            {errors.password.message}
-          </p>
-        )}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <Label htmlFor="password" className="text-slate-700 font-semibold ml-1">Password</Label>
+          <Input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            className="premium-input w-full"
+            autoComplete="new-password"
+            disabled={isLoading}
+            {...register("password")}
+            aria-invalid={errors.password ? "true" : "false"}
+          />
+          {errors.password && (
+            <p className="text-xs text-red-500 font-medium ml-1" role="alert">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="confirmPassword" className="text-slate-700 font-semibold ml-1">Confirm</Label>
+          <Input
+            id="confirmPassword"
+            type="password"
+            placeholder="••••••••"
+            className="premium-input w-full"
+            autoComplete="new-password"
+            disabled={isLoading}
+            {...register("confirmPassword")}
+            aria-invalid={errors.confirmPassword ? "true" : "false"}
+          />
+          {errors.confirmPassword && (
+            <p className="text-xs text-red-500 font-medium ml-1" role="alert">
+              {errors.confirmPassword.message}
+            </p>
+          )}
+        </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="confirmPassword">Confirm Password</Label>
-        <Input
-          id="confirmPassword"
-          type="password"
-          placeholder="Confirm your password"
-          autoComplete="new-password"
-          disabled={isLoading}
-          {...register("confirmPassword")}
-          aria-invalid={errors.confirmPassword ? "true" : "false"}
-        />
-        {errors.confirmPassword && (
-          <p className="text-sm text-red-600" role="alert">
-            {errors.confirmPassword.message}
-          </p>
-        )}
-      </div>
-
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "Creating account..." : "Create Account"}
+      <Button type="submit" className="premium-button w-full bg-secondary-600 text-white hover:bg-secondary-700 mt-2" disabled={isLoading}>
+        {isLoading ? (
+          <div className="flex items-center justify-center space-x-2">
+            <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"></span>
+            <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+            <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+          </div>
+        ) : "Create Master Account"}
       </Button>
 
-      <p className="text-center text-sm text-gray-600">
-        Already have an account?{" "}
+      <p className="text-center text-sm text-slate-500 font-medium">
+        Already registered?{" "}
         <Link
           href="/login"
-          className="text-primary-600 hover:text-primary-700 font-medium"
+          className="text-secondary-600 font-bold hover:underline underline-offset-4 decoration-2"
         >
-          Sign in
+          Sign in here
         </Link>
       </p>
     </form>
