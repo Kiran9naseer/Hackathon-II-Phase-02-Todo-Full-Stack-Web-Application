@@ -25,4 +25,7 @@ apiClient.interceptors.request.use(
 );
 
 // Better Auth client for authentication
-export { createAuthClient } from "better-auth/client";
+import { createAuthClient } from "better-auth/client";
+
+export { createAuthClient };
+export const authClient = createAuthClient();

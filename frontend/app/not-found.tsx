@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { PublicNavbar } from "@/components/layout/PublicNavbar";
+import PublicNavbar from "@/components/layout/PublicNavbar";
 import { Home, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {

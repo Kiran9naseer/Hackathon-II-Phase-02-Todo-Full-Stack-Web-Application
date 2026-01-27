@@ -2,6 +2,8 @@
 import LoggedInNavbar from '@/components/layout/LoggedInNavbar';
 import React from 'react';
 
+export const dynamic = 'force-dynamic';
+
 export default function ProtectedLayout({
   children,
 }: {
