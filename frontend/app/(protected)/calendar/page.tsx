@@ -35,25 +35,25 @@ export default function CalendarPage() {
             </div>
 
             {/* Premium Calendar Grid */}
-            <div className="glass-card bg-white dark:bg-slate-900/40 p-10 rounded-[3rem] border border-slate-50 dark:border-slate-800 shadow-premium-xl relative overflow-hidden">
+            <div className="glass-card bg-white dark:bg-slate-900/40 p-4 md:p-10 rounded-3xl md:rounded-[3rem] border border-slate-50 dark:border-slate-800 shadow-premium-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-                <div className="flex items-center justify-between mb-12 relative z-10">
-                    <h2 className="text-2xl font-black text-slate-900 dark:text-white italic uppercase tracking-tighter">January 2026</h2>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 md:mb-12 relative z-10">
+                    <h2 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white italic uppercase tracking-tighter">January 2026</h2>
                     <div className="flex items-center space-x-2">
-                        <button className="p-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl text-slate-400 transition-all border border-slate-100 dark:border-slate-800">
-                            <ChevronLeft className="w-5 h-5" />
+                        <button className="p-2 md:p-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg md:rounded-2xl text-slate-400 transition-all border border-slate-100 dark:border-slate-800">
+                            <ChevronLeft className="w-4 md:w-5 h-4 md:h-5" />
                         </button>
-                        <button className="p-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl text-slate-400 transition-all border border-slate-100 dark:border-slate-800">
-                            <ChevronRight className="w-5 h-5" />
+                        <button className="p-2 md:p-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg md:rounded-2xl text-slate-400 transition-all border border-slate-100 dark:border-slate-800">
+                            <ChevronRight className="w-4 md:w-5 h-4 md:h-5" />
                         </button>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-7 gap-4 relative z-10">
+                <div className="grid grid-cols-7 gap-2 md:gap-4 relative z-10 overflow-x-auto">
                     {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-                        <div key={day} className="text-center pb-6">
-                            <span className="text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-[0.2em] italic">{day}</span>
+                        <div key={day} className="text-center pb-3 md:pb-6">
+                            <span className="text-[8px] md:text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-[0.1em] md:tracking-[0.2em] italic">{day}</span>
                         </div>
                     ))}
 
@@ -63,11 +63,11 @@ export default function CalendarPage() {
                         const isToday = day === 28;
 
                         return (
-                            <div key={i} className={`min-h-[140px] p-6 rounded-[2rem] border transition-all relative group cursor-pointer ${isToday
-                                    ? 'bg-slate-950 dark:bg-white border-slate-950 dark:border-white shadow-2xl scale-[1.05] z-20'
+                            <div key={i} className={`min-h-[80px] md:min-h-[140px] p-2 md:p-6 rounded-lg md:rounded-[2rem] border transition-all relative group cursor-pointer ${isToday
+                                    ? 'bg-slate-950 dark:bg-white border-slate-950 dark:border-white shadow-2xl scale-[1.02] md:scale-[1.05] z-20'
                                     : 'bg-slate-50/50 dark:bg-slate-800/20 border-slate-100 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-800 hover:shadow-premium-xl active:scale-95'
                                 }`}>
-                                <span className={`text-xl font-black italic tracking-tighter transition-colors ${isToday ? 'text-white dark:text-slate-950' : 'text-slate-300 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-white'
+                                <span className={`text-sm md:text-xl font-black italic tracking-tighter transition-colors ${isToday ? 'text-white dark:text-slate-950' : 'text-slate-300 dark:text-slate-600 group-hover:text-slate-900 dark:group-hover:text-white'
                                     }`}>
                                     {day < 10 ? `0${day}` : day}
                                 </span>
