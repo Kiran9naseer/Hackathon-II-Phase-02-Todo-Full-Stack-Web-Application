@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTheme } from "next-themes";
 import { login } from "@/lib/auth/hooks";
 import { useSession } from "@/lib/auth/provider";
 import { loginSchema, type LoginSchema } from "@/lib/validation/schemas";
@@ -14,8 +15,10 @@ import { Label } from "@/components/ui/Label";
 
 export function LoginForm() {
   const router = useRouter();
+  const { theme } = useTheme();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const {
     register,
@@ -27,12 +30,16 @@ export function LoginForm() {
 
   const { session, refreshSession } = useSession();
 
-  // 🔥 Redirect ONLY when session exists
   useEffect(() => {
-    if (session) {
-      router.push("/dashboard");
+    setMounted(true);
+  }, []);
+
+  // 🔥 Redirect ONLY when session exists - to /tasks instead of /dashboard
+  useEffect(() => {
+    if (session && mounted) {
+      router.push("/tasks");
     }
-  }, [session, router]);
+  }, [session, router, mounted]);
 
   const onSubmit = async (data: LoginSchema) => {
     setError(null);
@@ -50,16 +57,24 @@ export function LoginForm() {
     }
   };
 
+  if (!mounted) return null;
+
+  const isDark = theme === 'dark';
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
       {error && (
-        <div className="p-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl animate-pulse">
+        <div className={`p-4 text-sm border rounded-xl animate-pulse ${
+          isDark
+            ? 'text-red-400 bg-red-900/30 border-red-800'
+            : 'text-red-600 bg-red-50 border-red-100'
+        }`}>
           {error}
         </div>
       )}
 
       <div className="space-y-1.5">
-        <Label htmlFor="email" className="text-slate-700 font-semibold ml-1">Email Address</Label>
+        <Label htmlFor="email" className={`font-semibold ml-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address</Label>
         <Input
           id="email"
           type="email"
@@ -73,8 +88,8 @@ export function LoginForm() {
 
       <div className="space-y-1.5">
         <div className="flex items-center justify-between ml-1">
-          <Label htmlFor="password" className="text-slate-700 font-semibold">Password</Label>
-          <a href="#" className="text-xs font-semibold text-primary-600 hover:text-primary-700">Forgot?</a>
+          <Label htmlFor="password" className={`font-semibold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Password</Label>
+          <a href="#" className={`text-xs font-semibold transition-colors ${isDark ? 'text-primary-400 hover:text-primary-300' : 'text-primary-600 hover:text-primary-700'}`}>Forgot?</a>
         </div>
         <Input
           id="password"
@@ -99,9 +114,11 @@ export function LoginForm() {
         ) : "Sign In to TodoMaster"}
       </Button>
 
-      <p className="text-center text-sm text-slate-500 font-medium">
+      <p className={`text-center text-sm font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
         New here?{" "}
-        <Link href="/register" className="text-primary-600 font-bold hover:underline underline-offset-4 decoration-2">
+        <Link href="/register" className={`font-bold hover:underline underline-offset-4 decoration-2 transition-colors ${
+          isDark ? 'text-primary-400 hover:text-primary-300' : 'text-primary-600 hover:text-primary-700'
+        }`}>
           Create account
         </Link>
       </p>
