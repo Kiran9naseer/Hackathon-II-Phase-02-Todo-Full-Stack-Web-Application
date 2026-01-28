@@ -16,7 +16,7 @@ const config: Config = {
           200: '#dce5fd',
           300: '#c2d1fb',
           400: '#9cb4f7',
-          500: '#6366f1', // Indigo 500
+          500: '#6366f1',
           600: '#4f46e5',
           700: '#4338ca',
           800: '#3730a3',
@@ -29,7 +29,7 @@ const config: Config = {
           200: '#e9d5ff',
           300: '#d8b4fe',
           400: '#c084fc',
-          500: '#a855f7', // Purple 500
+          500: '#a855f7',
           600: '#9333ea',
           700: '#7e22ce',
           800: '#6b21a8',
@@ -42,9 +42,19 @@ const config: Config = {
           200: '#bae6fd',
           300: '#7dd3fc',
           400: '#38bdf8',
-          500: '#0ea5e9', // Sky 500
+          500: '#0ea5e9',
           600: '#0284c7',
-        }
+        },
+        surface: {
+          light: '#ffffff',
+          light_variant: '#f8fafc',
+          dark: '#0f172a',
+          dark_variant: '#1e293b',
+        },
+        border: {
+          light: '#e2e8f0',
+          dark: '#334155',
+        },
       },
       backgroundImage: {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',

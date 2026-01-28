@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { Task } from "@/types/task";
-import { formatDate, getPriorityColor, getStatusColor, truncate } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { Trash2 } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 interface TaskCardProps {
   task: Task;
@@ -17,72 +22,149 @@ export function TaskCard({
   isCompleting,
 }: TaskCardProps) {
   const isCompleted = task.status === "completed";
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  const isDark = theme === 'dark';
+
+  const priorityStyles = {
+    high: isDark ? 'bg-red-900/40 text-red-300' : 'bg-red-50 text-red-600',
+    medium: isDark ? 'bg-orange-900/40 text-orange-300' : 'bg-orange-50 text-orange-600',
+    low: isDark ? 'bg-blue-900/40 text-blue-300' : 'bg-blue-50 text-blue-600',
+  };
 
   return (
     <div
-      className={`glass-card relative group p-6 rounded-[2rem] border-slate-100 hover:border-primary-100 hover:shadow-premium ${isCompleted ? "bg-slate-50/50 opacity-80" : "bg-white"
-        }`}
+      className={`card-elevated relative group p-6 rounded-2xl ${
+        isCompleted
+          ? isDark
+            ? 'opacity-60 bg-slate-900/50'
+            : 'opacity-70 bg-slate-50/50'
+          : ''
+      }`}
     >
       <div className="flex justify-between items-start mb-4">
-        <span className={`text-[10px] px-2 py-0.5 rounded-full font-black uppercase tracking-wider ${task.priority === 'high' ? 'bg-red-50 text-red-600' :
-          task.priority === 'medium' ? 'bg-orange-50 text-orange-600' :
-            'bg-blue-50 text-blue-600'
-          }`}>
+        <span
+          className={`text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-wider ${
+            priorityStyles[task.priority as keyof typeof priorityStyles] || priorityStyles.low
+          }`}
+        >
           {task.priority}
         </span>
         <Checkbox
           checked={isCompleted}
           onChange={() => onToggleComplete(task.id)}
           disabled={isCompleting}
-          className="w-5 h-5 rounded-lg border-2 border-slate-200 checked:bg-green-500 checked:border-green-500 transition-all"
+          className={`w-5 h-5 rounded-lg border-2 transition-all ${
+            isDark
+              ? 'border-slate-600 checked:bg-green-600 checked:border-green-600'
+              : 'border-slate-300 checked:bg-green-500 checked:border-green-500'
+          }`}
         />
       </div>
 
       <Link href={`/tasks/${task.id}`} className="block mb-2">
-        <h3 className={`font-bold text-lg leading-tight transition-colors group-hover:text-primary-600 ${isCompleted ? 'text-slate-400 line-through' : 'text-slate-800'}`}>
+        <h3
+          className={`font-bold text-lg leading-tight transition-colors group-hover:text-primary-600 ${
+            isCompleted
+              ? isDark
+                ? 'text-slate-500 line-through'
+                : 'text-slate-400 line-through'
+              : isDark
+              ? 'text-slate-100'
+              : 'text-slate-900'
+          }`}
+        >
           {task.title}
         </h3>
       </Link>
 
       {task.description && (
-        <p className={`text-[11px] line-clamp-2 mb-4 leading-relaxed font-medium ${isCompleted ? 'text-slate-400' : 'text-slate-500'}`}>
+        <p
+          className={`text-sm line-clamp-2 mb-4 leading-relaxed font-medium ${
+            isCompleted
+              ? isDark
+                ? 'text-slate-500'
+                : 'text-slate-400'
+              : isDark
+              ? 'text-slate-400'
+              : 'text-slate-600'
+          }`}
+        >
           {task.description}
         </p>
       )}
 
-      {/* Progress Bar - AI Simulated for UI Demo */}
+      {/* Progress Bar */}
       <div className="mb-6">
-        <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Progress</span>
-          <span className="text-[10px] font-black text-primary-600 italic">{isCompleted ? '100%' : '65%'}</span>
+        <div className="flex items-center justify-between mb-2">
+          <span className={`text-[10px] font-bold uppercase tracking-widest ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
+            Progress
+          </span>
+          <span className="text-[10px] font-bold text-primary-600 dark:text-primary-400">
+            {isCompleted ? '100%' : '65%'}
+          </span>
         </div>
-        <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden p-[1px]">
+        <div className={`h-2 w-full rounded-full overflow-hidden ${isDark ? 'bg-slate-700' : 'bg-slate-200'}`}>
           <div
-            className={`h-full rounded-full transition-all duration-1000 ${isCompleted ? 'bg-green-500' : 'bg-gradient-to-r from-primary-500 to-secondary-500'}`}
+            className={`h-full rounded-full transition-all duration-1000 ${
+              isCompleted
+                ? 'bg-green-500'
+                : 'bg-gradient-to-r from-primary-500 to-secondary-500'
+            }`}
             style={{ width: isCompleted ? '100%' : '65%' }}
-          ></div>
+          />
         </div>
       </div>
 
-      <div className="flex items-center justify-between pt-5 border-t border-slate-50 mt-auto">
-        <div className="flex items-center space-x-2 text-slate-400">
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-          <span className="text-[10px] font-bold">{formatDate(task.dueDate || task.createdAt)}</span>
+      <div className="flex items-center justify-between pt-5 border-t mt-auto"
+        style={{borderColor: isDark ? '#475569' : '#e2e8f0'}}>
+        <div className={`flex items-center space-x-2 text-sm ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+          <span className="text-[10px] font-bold">
+            {formatDate(task.dueDate || task.createdAt)}
+          </span>
         </div>
 
         <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <button
             onClick={() => onDelete(task.id)}
-            className="p-1.5 hover:bg-red-50 rounded-xl text-slate-400 hover:text-red-600 transition-all"
+            className={`p-2 rounded-lg transition-all ${
+              isDark
+                ? 'hover:bg-red-900/40 text-slate-500 hover:text-red-400'
+                : 'hover:bg-red-50 text-slate-400 hover:text-red-600'
+            }`}
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            <Trash2 className="w-4 h-4" />
           </button>
         </div>
       </div>
 
       {isCompleting && (
-        <div className="absolute inset-0 bg-white/60 backdrop-blur-xs rounded-[2rem] flex items-center justify-center">
-          <div className="w-5 h-5 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+        <div
+          className={`absolute inset-0 rounded-2xl flex items-center justify-center backdrop-blur-sm ${
+            isDark ? 'bg-slate-900/40' : 'bg-white/60'
+          }`}
+        >
+          <div className="w-5 h-5 border-2 border-primary-500 border-t-transparent rounded-full animate-spin" />
         </div>
       )}
     </div>
