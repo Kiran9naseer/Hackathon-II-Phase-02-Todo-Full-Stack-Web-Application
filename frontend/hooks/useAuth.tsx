@@ -3,7 +3,6 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { authClient } from "@/lib/auth/client";
-import { getAuthToken } from "@/lib/auth/config";
 
 /**
  * User interface from JWT token payload

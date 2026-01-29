@@ -21,8 +21,8 @@ export function TaskItem({
   return (
     <div
       className={`group flex items-center gap-4 p-4 rounded-2xl border transition-all ${isCompleted
-          ? "bg-slate-50/50 border-slate-100 opacity-80"
-          : "bg-white border-slate-100 hover:border-primary-100 hover:shadow-md"
+        ? "bg-slate-50/50 border-slate-100 opacity-80"
+        : "bg-white border-slate-100 hover:border-primary-100 hover:shadow-md"
         }`}
     >
       <Checkbox
@@ -39,11 +39,16 @@ export function TaskItem({
         </Link>
         <div className="flex items-center space-x-3 mt-1">
           <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-black uppercase tracking-wider ${task.priority === 'high' ? 'bg-red-50 text-red-600' :
-              task.priority === 'medium' ? 'bg-orange-50 text-orange-600' :
-                'bg-blue-50 text-blue-600'
+            task.priority === 'medium' ? 'bg-orange-50 text-orange-600' :
+              'bg-blue-50 text-blue-600'
             }`}>
             {task.priority}
           </span>
+          {task.category && (
+            <span className="text-[9px] px-1.5 py-0.5 rounded-md font-black uppercase tracking-wider bg-slate-100 text-slate-500">
+              {task.category.name}
+            </span>
+          )}
           <div className="h-1 w-1 bg-slate-200 rounded-full"></div>
           <span className="text-[10px] font-bold text-slate-400">{formatDate(task.dueDate || task.createdAt)}</span>
         </div>

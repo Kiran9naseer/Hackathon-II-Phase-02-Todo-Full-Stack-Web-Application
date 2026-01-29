@@ -4,6 +4,7 @@ This module provides REST API endpoints for task CRUD operations.
 All endpoints require authentication and enforce user ownership.
 """
 
+from datetime import date
 from typing import Optional
 from uuid import UUID
 
@@ -47,6 +48,9 @@ async def list_tasks(
     status: Optional[str] = None,
     priority: Optional[str] = None,
     category_id: Optional[UUID] = None,
+    due_date: Optional[date] = None,
+    sort_by: Optional[str] = "created_at",
+    sort_order: Optional[str] = "desc",
     limit: int = 20,
     offset: int = 0,
     user_id: UUID = Depends(get_current_user),
@@ -59,6 +63,9 @@ async def list_tasks(
         status: Filter by task status (pending, in_progress, completed, archived)
         priority: Filter by priority (low, medium, high)
         category_id: Filter by category UUID
+        due_date: Filter by due date (YYYY-MM-DD)
+        sort_by: Field to sort by (created_at, due_date, priority, title)
+        sort_order: Sort order (asc, desc)
         limit: Maximum number of results (default 20)
         offset: Number of results to skip (default 0)
 
@@ -70,6 +77,9 @@ async def list_tasks(
         status=status,
         priority=priority,
         category_id=category_id,
+        due_date=due_date,
+        sort_by=sort_by,
+        sort_order=sort_order,
         limit=limit,
         offset=offset,
     )

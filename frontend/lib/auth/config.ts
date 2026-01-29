@@ -1,56 +1,89 @@
-import { createAuthClient } from "better-auth/client";
-import { getEnv } from "@/lib/config";
+// frontend/lib/auth/config.ts
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
-/**
- * Better Auth client configuration with JWT plugin.
- *
- * Configures:
- * - JWT signing with HS256 algorithm
- * - HttpOnly cookie storage for security
- * - 24-hour token expiration
- * - SameSite=Strict for CSRF protection
- */
-export const authClient = createAuthClient({
-  baseURL: getEnv().BETTER_AUTH_URL,
-  cookieName: "jwt_token",
-  cookieCache: true,
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+export const {
+  handlers,
+  auth,
+  signIn,
+  signOut
+} = NextAuth({
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/v1/auth/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok && data.user) {
+            // Return user object, the token will be handled by callbacks
+            return {
+              id: data.user.id,
+              email: data.user.email,
+              name: data.user.name,
+              token: data.token, // Store token temporarily here
+            };
+          } else {
+            throw new Error(data.detail || "Login failed");
+          }
+        } catch (error: any) {
+          console.error("Credentials login error:", error.message);
+          throw new Error(error.message || "Something went wrong during login.");
+        }
+      },
+    }),
+  ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
+        // The custom 'token' from authorize is available here
+        token.accessToken = (user as any).token; 
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.id as string;
+      session.user.email = token.email as string;
+      session.user.name = token.name as string;
+      (session as any).accessToken = token.accessToken; // Attach accessToken to session
+      return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // Allows for custom redirection after login/logout.
+      // Default behavior in 'better-auth/client' might override this for client-side navigation.
+      return baseUrl;
+    },
+  },
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  jwt: {
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  pages: {
+    signIn: "/login", // Use the existing login page
+    error: "/error", // Optionally define an error page
+  },
+  secret: process.env.AUTH_SECRET,
 });
-
-/**
- * Get the current session token from the client.
- * Reads from the HttpOnly cookie set by Better Auth.
- */
-export async function getAuthToken(): Promise<string | null> {
-  try {
-    // Read token from cookie directly
-    const cookies = document.cookie.split("; ");
-    const tokenCookie = cookies.find((cookie) =>
-      cookie.startsWith("jwt_token=") || cookie.startsWith("better-auth.session-token=")
-    );
-
-    if (tokenCookie) {
-      const token = tokenCookie.split("=")[1];
-      return token || null;
-    }
-
-    // Check localStorage as fallback (for when HttpOnly cookies are blocked on cross-origin POSTs)
-    if (typeof window !== 'undefined') {
-      const localToken = localStorage.getItem('token');
-      if (localToken) return localToken;
-    }
-
-    // Fallback to fetching from session endpoint
-    const response = await fetch(`${getEnv().NEXT_PUBLIC_APP_URL}/api/auth/session`, {
-      method: "GET",
-      credentials: "include",
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return data.session?.token || null;
-    }
-    return null;
-  } catch {
-    return null;
-  }
-}

@@ -78,7 +78,13 @@ export default function TasksPage() {
   }, [taskToDelete, deleteTask]);
 
   const handleFilterChange = useCallback(
-    async (filters: { search?: string; status?: TaskStatus; priority?: TaskPriority }) => {
+    async (filters: {
+      search?: string;
+      status?: TaskStatus;
+      priority?: TaskPriority;
+      sortBy?: string;
+      dueDate?: string;
+    }) => {
       await fetchTasks(filters as TaskFilters);
     },
     [fetchTasks]
@@ -204,6 +210,13 @@ export default function TasksPage() {
                       </div>
 
                       <h4 className="font-black text-slate-900 dark:text-white mb-2 leading-[1.3] text-lg tracking-tighter group-hover:text-primary-600 transition-colors italic">{task.title}</h4>
+                      {task.category && (
+                        <div className="mb-2">
+                          <span className="text-[9px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider bg-slate-100 text-slate-500 border border-slate-200">
+                            {task.category.name}
+                          </span>
+                        </div>
+                      )}
                       {task.description && (
                         <p className="text-sm font-medium text-slate-400 dark:text-slate-500 line-clamp-2 mb-6 leading-relaxed italic">{task.description}</p>
                       )}

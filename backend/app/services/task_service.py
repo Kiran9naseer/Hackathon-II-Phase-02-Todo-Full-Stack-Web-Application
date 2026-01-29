@@ -5,7 +5,7 @@ user ownership filtering on every query.
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
 from uuid import UUID
 
@@ -61,6 +61,9 @@ class TaskService:
         status: Optional[str] = None,
         priority: Optional[str] = None,
         category_id: Optional[UUID] = None,
+        due_date: Optional[date] = None,
+        sort_by: Optional[str] = "created_at",
+        sort_order: Optional[str] = "desc",
         limit: int = 20,
         offset: int = 0,
     ) -> dict:
@@ -71,6 +74,9 @@ class TaskService:
             status: Filter by task status.
             priority: Filter by priority level.
             category_id: Filter by category UUID.
+            due_date: Filter by due date.
+            sort_by: Field to sort by (created_at, due_date, priority, title).
+            sort_order: Sort order (asc, desc).
             limit: Maximum number of results.
             offset: Number of results to skip.
 
@@ -90,14 +96,33 @@ class TaskService:
         if category_id:
             base_query = base_query.where(Task.category_id == category_id)
 
+        if due_date:
+            base_query = base_query.where(Task.due_date == due_date)
+
         # Get total count
         count_query = select(func.count()).select_from(base_query.subquery())
         total = self.db.execute(count_query).scalar() or 0
 
+        # Apply ordering
+        valid_sort_fields = {
+            "created_at": Task.created_at,
+            "updated_at": Task.updated_at,
+            "due_date": Task.due_date,
+            "priority": Task.priority,
+            "title": Task.title,
+        }
+        
+        sort_field = valid_sort_fields.get(sort_by, Task.created_at)
+        
+        if sort_order == "asc":
+            order_clause = sort_field.asc()
+        else:
+            order_clause = sort_field.desc()
+
         # Apply ordering and pagination
         query = (
             base_query
-            .order_by(Task.created_at.desc())
+            .order_by(order_clause)
             .offset(offset)
             .limit(limit)
         )

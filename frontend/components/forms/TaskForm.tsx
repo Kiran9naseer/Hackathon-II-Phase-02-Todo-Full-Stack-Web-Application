@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useCategories } from "@/hooks/useCategories";
 import { createTaskSchema, type CreateTaskSchema } from "@/lib/validation/schemas";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -21,6 +22,11 @@ interface TaskFormProps {
 export function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFormProps) {
   const router = useRouter();
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const { categories, fetchCategories } = useCategories();
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const {
     register,
@@ -38,6 +44,7 @@ export function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFormProps)
       }
       : {
         priority: "medium",
+        categoryId: "",
       },
   });
 
@@ -119,6 +126,20 @@ export function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFormProps)
         </div>
 
         <div className="space-y-1.5">
+          <Label htmlFor="categoryId" className="text-slate-700 font-semibold ml-1">Category</Label>
+          <Select
+            id="categoryId"
+            className="premium-input w-full appearance-none"
+            options={[
+              { value: "", label: "No Category" },
+              ...categories.map(c => ({ value: c.id, label: c.name }))
+            ]}
+            disabled={isLoading}
+            {...register("categoryId")}
+          />
+        </div>
+
+        <div className="space-y-1.5 sm:col-span-2">
           <Label htmlFor="dueDate" className="text-slate-700 font-semibold ml-1">Target Date</Label>
           <Input
             id="dueDate"

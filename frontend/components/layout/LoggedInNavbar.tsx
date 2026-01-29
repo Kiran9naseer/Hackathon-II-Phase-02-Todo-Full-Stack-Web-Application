@@ -9,7 +9,7 @@ import { useTheme } from 'next-themes';
 import { LayoutDashboard, CheckSquare, User, LogOut, ChevronDown, Sun, Moon } from 'lucide-react';
 
 const LoggedInNavbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isLoading } = useAuth();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -36,7 +36,9 @@ const LoggedInNavbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted || isLoading) {
+    return null; // Or render a loading spinner
+  }
 
   const isDark = theme === 'dark';
 
