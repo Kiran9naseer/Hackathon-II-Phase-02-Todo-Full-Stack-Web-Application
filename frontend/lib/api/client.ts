@@ -1,6 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { getEnv } from "@/lib/config";
-import { getAuthToken } from "@/lib/auth/config";
+import { getToken as getAuthToken } from "@/lib/auth/hooks";
 
 const apiClient = axios.create({
   baseURL: getEnv().NEXT_PUBLIC_API_URL,

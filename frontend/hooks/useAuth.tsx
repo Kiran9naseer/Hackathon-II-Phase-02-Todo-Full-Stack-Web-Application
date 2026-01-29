@@ -2,7 +2,9 @@
 
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { authClient } from "@/lib/auth/client";
+import { login as apiLogin, register as apiRegister, logout as apiLogout, getSession } from "@/lib/auth/hooks";
+
+// ... existing interfaces ...
 
 /**
  * User interface from JWT token payload
@@ -55,15 +57,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Refresh session from server
   const refreshSession = useCallback(async () => {
     try {
-      const { data, error } = await authClient.getSession();
-      if (error) {
-        console.error("Session refresh error:", error);
-        setUser(null);
-        return;
-      }
+      const session = await getSession();
 
-      if (data?.session) {
-        setUser(data.session.user);
+      if (session) {
+        // Adapt session user to AuthUser if needed, or assume match
+        // hooks.ts getSession returns data.session which likely has user
+        setUser(session.user);
       } else {
         setUser(null);
       }
@@ -85,25 +84,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async (email: string, password: string) => {
       setIsLoading(true);
       try {
-        const { data, error } = await authClient.signIn.email({
-          email,
-          password,
-        });
+        const data = await apiLogin(email, password);
 
-        if (error) {
-          throw new Error(error.message || "Login failed");
-        }
-
-        if (data?.session) {
-          setUser(data.session.user);
+        if (data?.user) {
+          setUser(data.user);
+        } else {
+          // Fallback if user is not in response, try refresh
+          await refreshSession();
         }
 
         router.push("/tasks"); // Always redirect to /tasks on successful login
+      } catch (error: any) {
+        throw new Error(error.message || "Login failed");
       } finally {
         setIsLoading(false);
       }
     },
-    [router]
+    [router, refreshSession]
   );
 
   // Register function
@@ -111,33 +108,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async (email: string, password: string, name?: string) => {
       setIsLoading(true);
       try {
-        const { data, error } = await authClient.signUp.email({
-          email,
-          password,
-          name,
-        });
+        const data = await apiRegister(email, password, name);
 
-        if (error) {
-          throw new Error(error.message || "Registration failed");
-        }
-
-        if (data?.session) {
-          setUser(data.session.user);
+        if (data?.user) {
+          setUser(data.user);
+        } else {
+          await refreshSession();
         }
 
         router.push("/tasks");
+      } catch (error: any) {
+        throw new Error(error.message || "Registration failed");
       } finally {
         setIsLoading(false);
       }
     },
-    [router]
+    [router, refreshSession]
   );
 
   // Logout function
   const logout = useCallback(async () => {
     setIsLoading(true);
     try {
-      await authClient.signOut();
+      await apiLogout();
       setUser(null);
       router.push("/"); // Redirect to landing page on logout
     } catch (error) {
