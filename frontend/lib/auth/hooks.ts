@@ -96,6 +96,8 @@ export async function getSession() {
 }
 
 export async function getToken(): Promise<string | null> {
-  const session = await getSession();
-  return session?.token || null;
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('token');
+  }
+  return null;
 }

@@ -1,7 +1,7 @@
 "use client";
 
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { getSession } from "./hooks";
+import { ReactNode } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Session {
   user: {
@@ -19,53 +19,26 @@ interface SessionContextType {
   refreshSession: () => Promise<void>;
 }
 
-const SessionContext = createContext<SessionContextType | undefined>(undefined);
-
-interface AuthProviderProps {
-  children: ReactNode;
+export function AuthProvider({ children }: { children: ReactNode }) {
+  // This provider is now deprecated/redundant as the app is wrapped 
+  // with the main AuthProvider from hooks/useAuth in layout.tsx.
+  // We keep this as a passthrough to avoid breaking existing imports.
+  return <>{children}</>;
 }
 
-export function AuthProvider({ children }: AuthProviderProps) {
-  const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export function useSession(): SessionContextType {
+  const { user, isLoading, isAuthenticated, refreshSession } = useAuth();
 
-  useEffect(() => {
-    checkSession();
-  }, []);
+  // Map useAuth state to the expected Session shape
+  const session: Session | null = user ? {
+    user: user,
+    token: "", // Token is managed internally by apiClient/cookies, not exposed in useAuth
+  } : null;
 
-  const checkSession = async () => {
-    setIsLoading(true);
-    try {
-      console.log("Checking session...");
-      const data = await getSession();
-      console.log("Session data received:", data);
-      setSession(data || null);
-    } catch (error) {
-      console.error("Failed to get session:", error);
-      setSession(null);
-    } finally {
-      setIsLoading(false);
-    }
+  return {
+    session,
+    isLoading,
+    isAuthenticated,
+    refreshSession,
   };
-
-  return (
-    <SessionContext.Provider
-      value={{
-        session,
-        isLoading,
-        isAuthenticated: !!session,
-        refreshSession: checkSession,
-      }}
-    >
-      {children}
-    </SessionContext.Provider>
-  );
-}
-
-export function useSession() {
-  const context = useContext(SessionContext);
-  if (context === undefined) {
-    throw new Error("useSession must be used within an AuthProvider");
-  }
-  return context;
 }

@@ -15,7 +15,8 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     // Skip token attachment for auth endpoints
-    if (config.url?.includes("/auth/")) {
+    // Skip token attachment for login/register only, allow for session
+    if (config.url?.includes("/auth/login") || config.url?.includes("/auth/register")) {
       return config;
     }
 
