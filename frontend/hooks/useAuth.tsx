@@ -65,14 +65,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session.user);
       } else {
         setUser(null);
+        const protectedRoutes = ['/dashboard', '/tasks', '/task', '/profile', '/calendar', '/categories'];
+        if (protectedRoutes.some(route => window.location.pathname.startsWith(route))) {
+          router.push('/login');
+        }
       }
     } catch (error) {
       console.error("Failed to refresh session:", error);
       setUser(null);
+      const protectedRoutes = ['/dashboard', '/tasks', '/task', '/profile', '/calendar', '/categories'];
+      if (protectedRoutes.some(route => window.location.pathname.startsWith(route))) {
+        router.push('/login');
+      }
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [router]);
 
   // Check session on mount
   useEffect(() => {

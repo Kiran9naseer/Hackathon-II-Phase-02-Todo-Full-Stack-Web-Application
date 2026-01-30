@@ -42,7 +42,7 @@ export function useTasks(): UseTasksReturn {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   const createTask = useCallback(async (data: CreateTaskRequest): Promise<Task> => {
     setError(null);

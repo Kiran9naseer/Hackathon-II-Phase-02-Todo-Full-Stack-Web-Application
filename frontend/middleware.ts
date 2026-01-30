@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const token = request.cookies.get('token')?.value;
+  const token = request.cookies.get('jwt_token')?.value || request.cookies.get('token')?.value;
 
   // Define route categories
   const publicRoutes = ['/'];
