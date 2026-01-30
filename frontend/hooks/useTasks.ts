@@ -32,7 +32,8 @@ export function useTasks(): UseTasksReturn {
     setError(null);
     try {
       const response = await taskApi.getAll(filters);
-      setTasks(response.tasks);
+      // Ensure response.tasks exists, otherwise default to empty array to prevent map error
+      setTasks(response?.tasks || []);
     } catch (err: any) {
       // If it's a 401 during logout transition, we might want to be silent
       // But for now, just set the error state and DON'T throw

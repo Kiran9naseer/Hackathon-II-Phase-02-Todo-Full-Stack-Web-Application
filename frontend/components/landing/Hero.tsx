@@ -20,25 +20,28 @@ const Hero = () => {
   return (
     <section className={`text-center py-20 md:py-32 px-4 ${isDark ? 'text-slate-50' : 'text-slate-900'}`}>
       <div className="max-w-4xl mx-auto space-y-8">
-        <div className="space-y-4">
-          <h1 className="text-5xl md:text-7xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-secondary-600 to-accent-500">
-            TodoMaster
+        <div className="space-y-6">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white">
+            Master your <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">Workflow.</span>
           </h1>
-          <p className={`text-xl md:text-2xl font-medium ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-            The ultimate tool to organize your life and boost productivity
+          <p className={`text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+            The ultimate tool to organize your life, boost productivity, and achieve your goals with clarity.
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8 px-4 sm:px-0">
           <Link
             href="/register"
-            className="premium-button bg-primary-600 hover:bg-primary-700 text-white shadow-lg hover:shadow-xl"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-indigo-500/20 transition-all duration-200"
           >
             Get Started
           </Link>
           <Link
             href="/login"
-            className={`premium-button border-2 ${isDark ? 'border-slate-600 text-slate-200 hover:bg-slate-800' : 'border-slate-300 text-slate-700 hover:bg-slate-100'} bg-transparent`}
+            className={`w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold border-2 transition-all duration-200 ${isDark
+                ? 'border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white'
+                : 'border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+              } bg-transparent`}
           >
             Sign In
           </Link>

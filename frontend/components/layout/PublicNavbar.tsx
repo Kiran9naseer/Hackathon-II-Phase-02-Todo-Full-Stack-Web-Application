@@ -19,12 +19,11 @@ const PublicNavbar = () => {
   const isDark = theme === 'dark';
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 backdrop-blur-lg border-b transition-all duration-300 ${
-      isDark
-        ? 'bg-slate-900/80 border-slate-700'
+    <nav className={`relative md:sticky md:top-0 w-full z-50 backdrop-blur-lg border-b transition-all duration-300 ${isDark
+        ? 'bg-slate-900/80 border-slate-800'
         : 'bg-white/80 border-slate-200'
-    }`}>
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 md:px-8 py-4">
+      }`}>
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3 md:px-8 md:py-4">
         <Link href="/" className={`text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-secondary-600`}>
           TodoMaster
         </Link>
@@ -32,11 +31,10 @@ const PublicNavbar = () => {
         <div className="flex items-center gap-4 md:gap-6">
           <button
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            className={`p-2 rounded-lg transition-colors ${
-              isDark
+            className={`p-2 rounded-lg transition-colors ${isDark
                 ? 'bg-slate-800 hover:bg-slate-700 text-yellow-400'
                 : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
-            }`}
+              }`}
             aria-label="Toggle theme"
           >
             {isDark ? (
@@ -48,11 +46,10 @@ const PublicNavbar = () => {
 
           <Link
             href="/login"
-            className={`px-4 py-2 rounded-xl font-semibold transition-colors ${
-              isDark
+            className={`px-4 py-2 rounded-xl font-semibold transition-colors ${isDark
                 ? 'text-slate-300 hover:text-white'
                 : 'text-slate-600 hover:text-slate-900'
-            }`}
+              }`}
           >
             Sign In
           </Link>

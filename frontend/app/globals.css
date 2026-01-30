@@ -26,10 +26,10 @@
   body {
     color: rgb(var(--foreground-rgb));
     background:
-      radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.03) 0%, transparent 50%),
-      /* Indigo */
-      radial-gradient(circle at 100% 100%, rgba(56, 189, 248, 0.03) 0%, transparent 50%),
-      /* Sky */
+      radial-gradient(circle at 15% 50%, rgba(79, 70, 229, 0.04) 0%, transparent 25%),
+      /* Subtle Indigo */
+      radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.04) 0%, transparent 25%),
+      /* Subtle Sky */
       rgb(var(--background-start-rgb));
     min-height: 100vh;
     overflow-x: hidden;
