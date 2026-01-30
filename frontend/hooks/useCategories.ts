@@ -25,7 +25,8 @@ export function useCategories(): UseCategoriesReturn {
     setError(null);
     try {
       const { data } = await apiClient.get(API_ENDPOINTS.CATEGORIES);
-      setCategories(data);
+      // Backend returns { items: [], total: ... }, so we must extract items
+      setCategories(data.items || []);
     } catch (err: any) {
       console.error("Failed to fetch categories:", err);
       setError(err.message || "Failed to fetch categories");
