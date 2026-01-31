@@ -11,30 +11,30 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          50: '#f5f7ff',
-          100: '#ebf0fe',
-          200: '#dce5fd',
-          300: '#c2d1fb',
-          400: '#9cb4f7',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e', // Primary Green
+          600: '#16a34a', // Secondary Green
+          700: '#15803d',
+          800: '#166534',
+          900: '#14532d',
+          950: '#052e16',
         },
         secondary: {
-          50: '#faf5ff',
-          100: '#f3e8ff',
-          200: '#e9d5ff',
-          300: '#d8b4fe',
-          400: '#c084fc',
-          500: '#a855f7',
-          600: '#9333ea',
-          700: '#7e22ce',
-          800: '#6b21a8',
-          900: '#581c87',
-          950: '#3b0764',
+          50: '#f7fee7',
+          100: '#ecfccb',
+          200: '#d9f99d',
+          300: '#bef264',
+          400: '#a3e635',
+          500: '#84cc16',
+          600: '#65a30d',
+          700: '#4d7c0f',
+          800: '#3f6212',
+          900: '#365314',
+          950: '#1a2e05',
         },
         accent: {
           50: '#f0f9ff',
@@ -48,12 +48,12 @@ const config: Config = {
         surface: {
           light: '#ffffff',
           light_variant: '#f8fafc',
-          dark: '#0f172a',
-          dark_variant: '#1e293b',
+          dark: '#0B0F0E', // New Dark Background
+          dark_variant: '#111A17', // New Card Background
         },
         border: {
           light: '#e2e8f0',
-          dark: '#334155',
+          dark: 'rgba(34, 197, 94, 0.15)', // Green subtle border
         },
       },
       backgroundImage: {

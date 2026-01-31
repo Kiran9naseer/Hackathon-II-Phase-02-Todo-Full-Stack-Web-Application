@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-gray-900`}>
-        <div className="relative min-h-screen w-full bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+        <div className="relative min-h-screen w-full transition-colors duration-300">
           <AuthProvider>{children}</AuthProvider>
         </div>
       </body>
