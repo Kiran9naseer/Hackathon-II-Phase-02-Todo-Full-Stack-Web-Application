@@ -6,44 +6,38 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
 const Hero = () => {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
-
-  const isDark = theme === 'dark';
-
   return (
-    <section className={`text-center py-20 md:py-32 px-4 ${isDark ? 'text-slate-50' : 'text-slate-900'}`}>
-      <div className="max-w-4xl mx-auto space-y-8">
-        <div className="space-y-6">
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white">
-            Master your <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">Workflow.</span>
+    <section className="relative text-center py-24 md:py-48 px-4 overflow-hidden">
+      {/* Background Mist Effects */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary-500/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+
+      <div className="max-w-5xl mx-auto space-y-12 relative z-10">
+        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-primary-500/20 bg-primary-500/5 mb-4">
+            <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
+            <span className="text-[10px] font-black text-primary-400 uppercase tracking-[0.2em]">Deployment Active</span>
+          </div>
+          <h1 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter text-white leading-[0.9] italic">
+            Architect Your <br />
+            <span className="text-gradient italic">Neural Roadmap.</span>
           </h1>
-          <p className={`text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-            The ultimate tool to organize your life, boost productivity, and achieve your goals with clarity.
+          <p className="text-lg md:text-2xl font-medium max-w-2xl mx-auto leading-relaxed text-primary-50/60 tracking-tight">
+            The next-generation protocol for strategic task management and productivity optimization.
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8 px-4 sm:px-0">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center pt-8 px-4 sm:px-0">
           <Link
             href="/register"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-indigo-500/20 transition-all duration-200"
+            className="premium-button bg-primary-500 hover:bg-primary-400 text-white min-w-[220px]"
           >
-            Get Started
+            Launch Command
           </Link>
           <Link
             href="/login"
-            className={`w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold border-2 transition-all duration-200 ${isDark
-                ? 'border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white'
-                : 'border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-              } bg-transparent`}
+            className="premium-button bg-transparent border-2 border-primary-500/30 text-primary-400 hover:bg-primary-500/10 min-w-[220px]"
           >
-            Sign In
+            Access Node
           </Link>
         </div>
       </div>

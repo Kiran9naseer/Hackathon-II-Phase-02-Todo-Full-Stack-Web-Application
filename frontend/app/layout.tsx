@@ -20,9 +20,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-gray-900`}>
-        <div className="relative min-h-screen w-full transition-colors duration-300">
+    <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
+      <body className={`${inter.className} bg-surface-dark select-none`}>
+        <div className="relative min-h-screen w-full transition-all duration-700">
           <AuthProvider>{children}</AuthProvider>
         </div>
       </body>

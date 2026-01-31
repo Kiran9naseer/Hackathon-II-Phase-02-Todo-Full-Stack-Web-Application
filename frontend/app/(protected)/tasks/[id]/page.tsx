@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { taskApi } from "@/lib/api/tasks";
 import { TaskForm } from "@/components/forms/TaskForm";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { Button } from "@/components/ui/Button";
 import type { Task, UpdateTaskRequest } from "@/types/task";
 
 export default function EditTaskPage() {

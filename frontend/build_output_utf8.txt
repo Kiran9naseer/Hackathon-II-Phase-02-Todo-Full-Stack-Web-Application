@@ -1,0 +1,380 @@
+﻿
+> todo-frontend@1.0.0 build
+> next build
+
+   Γû▓ Next.js 14.1.0
+   - Environments: .env.local, .env.production
+
+   Creating an optimized production build ...
+node.exe : Compiler 
+edge-server unexpectedly 
+exited with code: null and 
+signal: SIGTERM
+At C:\Program 
+Files\nodejs\npm.ps1:29 
+char:3
++   & $NODE_EXE $NPM_CLI_JS 
+$args
++   ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo          
+    : NotSpecified: (Compi  
+  ler edge-s...signal: SI   
+ GTERM:String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+<w> [webpack.cache.PackFileC
+acheStrategy] Skipped not 
+serializable cache item 'Com
+pilation/modules|C:\Users\Us
+er\Documents\GitHub\Hackatho
+n-II-Phase-02-Todo-Full-Stac
+k-Web-Application\frontend\n
+ode_modules\next\dist\build\
+webpack\loaders\css-loader\s
+rc\index.js??ruleSet[1].rule
+s[11].oneOf[12].use[2]!C:\Us
+ers\User\Documents\GitHub\Ha
+ckathon-II-Phase-02-Todo-Ful
+l-Stack-Web-Application\fron
+tend\node_modules\next\dist\
+build\webpack\loaders\postcs
+s-loader\src\index.js??ruleS
+et[1].rules[11].oneOf[12].us
+e[3]!C:\Users\User\Documents
+\GitHub\Hackathon-II-Phase-0
+2-Todo-Full-Stack-Web-Applic
+ation\frontend\app\globals.c
+ss': No serializer 
+registered for 
+PostCSSSyntaxError
+<w> while serializing webpac
+k/lib/cache/PackFileCacheStr
+ategy.PackContentItems -> 
+webpack/lib/NormalModule -> 
+webpack/lib/ModuleBuildError
+ -> PostCSSSyntaxError
+Failed to compile.
+
+./app/globals.css:58:5
+Syntax error: C:\Users\User\
+Documents\GitHub\Hackathon-I
+I-Phase-02-Todo-Full-Stack-W
+eb-Application\frontend\app\
+globals.css The `dark:shadow
+-[0_0_20px_rgba(34,` class 
+does not exist. If `dark:sha
+dow-[0_0_20px_rgba(34,` is 
+a custom class, make sure 
+it is defined within a 
+`@layer` directive.
+
+ [90m 56 | [39m  [90m/* 
+Green Mist Card Style 
+*/[39m
+ [90m 57 | [39m  
+[33m.glass-card[39m 
+[33m{[39m
+[1m[31m>[39m[22m[90m 
+58 | [39m    
+[36m@apply[39m bg-white da
+rk[33m:[39mbg-surface-dark
+_variant backdrop-blur-md 
+border border-slate-200 dark
+[33m:[39mborder-primary-50
+0/20 shadow-sm dark[33m:[3
+9mshadow-[33m[[39m[36m0_0
+_20px_rgba[39m[36m(34, 
+197, 94, 
+0.05)[39m[33m][39m 
+transition-all duration-300 
+hover[33m:[39mshadow-md da
+rk[33m:[39mhover[33m:[39
+mshadow-[33m[[39m[36m0_0_
+30px_rgba[39m[36m(34, 
+197, 94, 
+0.15)[39m[33m][39m 
+rounded-2xl[33m;[39m
+ [90m    | [39m    
+[1m[31m^[39m[22m
+ [90m 59 | [39m  
+[33m}[39m
+ [90m 60 | [39m
+
+./app/globals.css
+Syntax error: C:\Users\User\
+Documents\GitHub\Hackathon-I
+I-Phase-02-Todo-Full-Stack-W
+eb-Application\frontend\app\
+globals.css The `dark:shadow
+-[0_0_20px_rgba(34,` class 
+does not exist. If `dark:sha
+dow-[0_0_20px_rgba(34,` is 
+a custom class, make sure 
+it is defined within a 
+`@layer` directive. (58:5)
+
+ [90m 56 | [39m  [90m/* 
+Green Mist Card Style 
+*/[39m
+ [90m 57 | [39m  
+[33m.glass-card[39m 
+[33m{[39m
+[1m[31m>[39m[22m[90m 
+58 | [39m    
+[36m@apply[39m bg-white da
+rk[33m:[39mbg-surface-dark
+_variant backdrop-blur-md 
+border border-slate-200 dark
+[33m:[39mborder-primary-50
+0/20 shadow-sm dark[33m:[3
+9mshadow-[33m[[39m[36m0_0
+_20px_rgba[39m[36m(34, 
+197, 94, 
+0.05)[39m[33m][39m 
+transition-all duration-300 
+hover[33m:[39mshadow-md da
+rk[33m:[39mhover[33m:[39
+mshadow-[33m[[39m[36m0_0_
+30px_rgba[39m[36m(34, 
+197, 94, 
+0.15)[39m[33m][39m 
+rounded-2xl[33m;[39m
+ [90m    | [39m    
+[1m[31m^[39m[22m
+ [90m 59 | [39m  
+[33m}[39m
+ [90m 60 | [39m
+
+    at tryRunOrWebpackError 
+(C:\Users\User\Documents\Git
+Hub\Hackathon-II-Phase-02-To
+do-Full-Stack-Web-Applicatio
+n\frontend\node_modules\next
+\dist\compiled\webpack\bundl
+e5.js:28:311563)
+    at 
+__webpack_require_module__ (
+C:\Users\User\Documents\GitH
+ub\Hackathon-II-Phase-02-Tod
+o-Full-Stack-Web-Application
+\frontend\node_modules\next\
+dist\compiled\webpack\bundle
+5.js:28:131195)
+    at __nested_webpack_requ
+ire_153754__ (C:\Users\User\
+Documents\GitHub\Hackathon-I
+I-Phase-02-Todo-Full-Stack-W
+eb-Application\frontend\node
+_modules\next\dist\compiled\
+webpack\bundle5.js:28:130634
+)
+    at C:\Users\User\Documen
+ts\GitHub\Hackathon-II-Phase
+-02-Todo-Full-Stack-Web-Appl
+ication\frontend\node_module
+s\next\dist\compiled\webpack
+\bundle5.js:28:131487
+    at symbolIterator (C:\Us
+ers\User\Documents\GitHub\Ha
+ckathon-II-Phase-02-Todo-Ful
+l-Stack-Web-Application\fron
+tend\node_modules\next\dist\
+compiled\neo-async\async.js:
+1:14444)
+    at done (C:\Users\User\D
+ocuments\GitHub\Hackathon-II
+-Phase-02-Todo-Full-Stack-We
+b-Application\frontend\node_
+modules\next\dist\compiled\n
+eo-async\async.js:1:14824)
+    at Hook.eval [as 
+callAsync] (eval at create (
+C:\Users\User\Documents\GitH
+ub\Hackathon-II-Phase-02-Tod
+o-Full-Stack-Web-Application
+\frontend\node_modules\next\
+dist\compiled\webpack\bundle
+5.js:13:28867), 
+<anonymous>:15:1)
+    at 
+Hook.CALL_ASYNC_DELEGATE 
+[as _callAsync] (C:\Users\Us
+er\Documents\GitHub\Hackatho
+n-II-Phase-02-Todo-Full-Stac
+k-Web-Application\frontend\n
+ode_modules\next\dist\compil
+ed\webpack\bundle5.js:13:260
+21)
+    at C:\Users\User\Documen
+ts\GitHub\Hackathon-II-Phase
+-02-Todo-Full-Stack-Web-Appl
+ication\frontend\node_module
+s\next\dist\compiled\webpack
+\bundle5.js:28:130354
+    at symbolIterator (C:\Us
+ers\User\Documents\GitHub\Ha
+ckathon-II-Phase-02-Todo-Ful
+l-Stack-Web-Application\fron
+tend\node_modules\next\dist\
+compiled\neo-async\async.js:
+1:14402)
+-- inner error --
+Syntax error: C:\Users\User\
+Documents\GitHub\Hackathon-I
+I-Phase-02-Todo-Full-Stack-W
+eb-Application\frontend\app\
+globals.css The `dark:shadow
+-[0_0_20px_rgba(34,` class 
+does not exist. If `dark:sha
+dow-[0_0_20px_rgba(34,` is 
+a custom class, make sure 
+it is defined within a 
+`@layer` directive. (58:5)
+
+ [90m 56 | [39m  [90m/* 
+Green Mist Card Style 
+*/[39m
+ [90m 57 | [39m  
+[33m.glass-card[39m 
+[33m{[39m
+[1m[31m>[39m[22m[90m 
+58 | [39m    
+[36m@apply[39m bg-white da
+rk[33m:[39mbg-surface-dark
+_variant backdrop-blur-md 
+border border-slate-200 dark
+[33m:[39mborder-primary-50
+0/20 shadow-sm dark[33m:[3
+9mshadow-[33m[[39m[36m0_0
+_20px_rgba[39m[36m(34, 
+197, 94, 
+0.05)[39m[33m][39m 
+transition-all duration-300 
+hover[33m:[39mshadow-md da
+rk[33m:[39mhover[33m:[39
+mshadow-[33m[[39m[36m0_0_
+30px_rgba[39m[36m(34, 
+197, 94, 
+0.15)[39m[33m][39m 
+rounded-2xl[33m;[39m
+ [90m    | [39m    
+[1m[31m^[39m[22m
+ [90m 59 | [39m  
+[33m}[39m
+ [90m 60 | [39m
+
+    at Object.<anonymous> (C
+:\Users\User\Documents\GitHu
+b\Hackathon-II-Phase-02-Todo
+-Full-Stack-Web-Application\
+frontend\node_modules\next\d
+ist\build\webpack\loaders\cs
+s-loader\src\index.js??ruleS
+et[1].rules[11].oneOf[12].us
+e[2]!C:\Users\User\Documents
+\GitHub\Hackathon-II-Phase-0
+2-Todo-Full-Stack-Web-Applic
+ation\frontend\node_modules\
+next\dist\build\webpack\load
+ers\postcss-loader\src\index
+.js??ruleSet[1].rules[11].on
+eOf[12].use[3]!C:\Users\User
+\Documents\GitHub\Hackathon-
+II-Phase-02-Todo-Full-Stack-
+Web-Application\frontend\app
+\globals.css:1:7)
+    at C:\Users\User\Documen
+ts\GitHub\Hackathon-II-Phase
+-02-Todo-Full-Stack-Web-Appl
+ication\frontend\node_module
+s\next\dist\compiled\webpack
+\bundle5.js:28:915116
+    at Hook.eval [as call] 
+(eval at create (C:\Users\Us
+er\Documents\GitHub\Hackatho
+n-II-Phase-02-Todo-Full-Stac
+k-Web-Application\frontend\n
+ode_modules\next\dist\compil
+ed\webpack\bundle5.js:13:286
+45), <anonymous>:7:1)
+    at Hook.CALL_DELEGATE 
+[as _call] (C:\Users\User\Do
+cuments\GitHub\Hackathon-II-
+Phase-02-Todo-Full-Stack-Web
+-Application\frontend\node_m
+odules\next\dist\compiled\we
+bpack\bundle5.js:13:25915)
+    at C:\Users\User\Documen
+ts\GitHub\Hackathon-II-Phase
+-02-Todo-Full-Stack-Web-Appl
+ication\frontend\node_module
+s\next\dist\compiled\webpack
+\bundle5.js:28:131228
+    at tryRunOrWebpackError 
+(C:\Users\User\Documents\Git
+Hub\Hackathon-II-Phase-02-To
+do-Full-Stack-Web-Applicatio
+n\frontend\node_modules\next
+\dist\compiled\webpack\bundl
+e5.js:28:311517)
+    at 
+__webpack_require_module__ (
+C:\Users\User\Documents\GitH
+ub\Hackathon-II-Phase-02-Tod
+o-Full-Stack-Web-Application
+\frontend\node_modules\next\
+dist\compiled\webpack\bundle
+5.js:28:131195)
+    at __nested_webpack_requ
+ire_153754__ (C:\Users\User\
+Documents\GitHub\Hackathon-I
+I-Phase-02-Todo-Full-Stack-W
+eb-Application\frontend\node
+_modules\next\dist\compiled\
+webpack\bundle5.js:28:130634
+)
+    at C:\Users\User\Documen
+ts\GitHub\Hackathon-II-Phase
+-02-Todo-Full-Stack-Web-Appl
+ication\frontend\node_module
+s\next\dist\compiled\webpack
+\bundle5.js:28:131487
+    at symbolIterator (C:\Us
+ers\User\Documents\GitHub\Ha
+ckathon-II-Phase-02-Todo-Ful
+l-Stack-Web-Application\fron
+tend\node_modules\next\dist\
+compiled\neo-async\async.js:
+1:14444)
+
+Generated code for C:\Users\
+User\Documents\GitHub\Hackat
+hon-II-Phase-02-Todo-Full-St
+ack-Web-Application\frontend
+\node_modules\next\dist\buil
+d\webpack\loaders\css-loader
+\src\index.js??ruleSet[1].ru
+les[11].oneOf[12].use[2]!C:\
+Users\User\Documents\GitHub\
+Hackathon-II-Phase-02-Todo-F
+ull-Stack-Web-Application\fr
+ontend\node_modules\next\dis
+t\build\webpack\loaders\post
+css-loader\src\index.js??rul
+eSet[1].rules[11].oneOf[12].
+use[3]!C:\Users\User\Documen
+ts\GitHub\Hackathon-II-Phase
+-02-Todo-Full-Stack-Web-Appl
+ication\frontend\app\globals
+.css
+
+Import trace for requested 
+module:
+./app/globals.css
+
+
+> Build failed because of 
+webpack errors

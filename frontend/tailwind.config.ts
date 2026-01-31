@@ -63,6 +63,9 @@ const config: Config = {
       boxShadow: {
         'premium': '0 10px 30px -10px rgba(0, 0, 0, 0.1)',
         'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+        'mist': '0 0 20px rgba(34, 197, 94, 0.05)',
+        'mist-hover': '0 0 30px rgba(34, 197, 94, 0.15)',
+        'mist-premium': '0 0 40px rgba(34, 197, 94, 0.25)',
       },
       backdropBlur: {
         xs: '2px',

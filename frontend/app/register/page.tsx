@@ -20,44 +20,35 @@ export default function RegisterPage() {
   const isDark = theme === 'dark';
 
   return (
-    <div className={`flex flex-col items-center justify-center min-h-screen p-4 transition-colors duration-300 ${isDark
-        ? 'bg-gradient-to-br from-surface-dark via-surface-dark to-surface-dark_variant'
-        : 'bg-gradient-to-br from-slate-50 via-white to-slate-100'
-      }`}>
-      <div className="absolute top-4 left-4">
-        <Link href="/" className={`inline-flex items-center transition-colors group ${isDark
-            ? 'text-slate-400 hover:text-white'
-            : 'text-slate-600 hover:text-slate-900'
-          }`}>
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-surface-dark relative overflow-hidden">
+      {/* Background Mist */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-500/5 rounded-full blur-[150px] -z-10 text-center"></div>
+
+      <div className="absolute top-8 left-8">
+        <Link href="/" className="inline-flex items-center text-primary-50/40 hover:text-primary-400 transition-all group font-black uppercase tracking-widest text-[10px] italic">
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-          Back to Home
+          Abort Sequence
         </Link>
       </div>
 
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className={`text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-600 mb-2 tracking-tight`}>
-            Create Account
+      <div className="w-full max-w-md animate-in fade-in slide-in-from-top-12 duration-700">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-br from-primary-400 to-primary-600 mb-2 tracking-tighter italic uppercase">
+            Mobilize.
           </h1>
-          <p className={`${isDark ? 'text-slate-400' : 'text-slate-600'} font-medium`}>
-            Join the productivity revolution
+          <p className="text-primary-50/40 font-black uppercase tracking-[0.2em] text-[10px] italic">
+            Initialize distributed intelligence
           </p>
         </div>
 
-        <div className={`rounded-2xl p-8 border backdrop-blur-lg transition-all duration-300 ${isDark
-            ? 'bg-surface-dark_variant/80 border-primary-500/20 shadow-[0_0_30px_rgba(34,197,94,0.1)]'
-            : 'bg-white/80 border-slate-200 shadow-xl shadow-slate-200/50'
-          }`}>
+        <div className="glass-card p-10 !shadow-mist-premium border-primary-500/20">
           <RegisterForm />
         </div>
 
-        <p className={`text-center mt-8 transition-colors ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-          Already have an account?{' '}
-          <Link href="/login" className={`font-bold transition-colors ${isDark
-              ? 'text-primary-400 hover:text-primary-300 hover:underline underline-offset-4 decoration-primary-500/30'
-              : 'text-primary-600 hover:text-primary-700'
-            }`}>
-            Sign In
+        <p className="text-center mt-12 text-primary-50/40 font-medium">
+          Already verified?{' '}
+          <Link href="/login" className="text-primary-400 hover:text-primary-300 font-black italic uppercase tracking-wider underline underline-offset-8 decoration-primary-500/30 transition-all">
+            Execute Entry
           </Link>
         </p>
       </div>

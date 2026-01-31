@@ -7,19 +7,14 @@ import Link from "next/link";
 import { useTasks } from "@/hooks/useTasks";
 import { TaskForm } from "@/components/forms/TaskForm";
 import { Button } from "@/components/ui/Button";
+import type { CreateTaskRequest, UpdateTaskRequest } from "@/types/task";
 
 export default function NewTaskPage() {
   const router = useRouter();
   const { createTask, isLoading } = useTasks();
 
-  const handleSubmit = async (data: { title: string; description?: string; priority: string; categoryId?: string; dueDate?: string }) => {
-    await createTask({
-      title: data.title,
-      description: data.description,
-      priority: data.priority as "low" | "medium" | "high",
-      categoryId: data.categoryId,
-      dueDate: data.dueDate,
-    });
+  const handleSubmit = async (data: CreateTaskRequest | UpdateTaskRequest) => {
+    await createTask(data as CreateTaskRequest);
     router.push("/tasks");
     router.refresh();
   };

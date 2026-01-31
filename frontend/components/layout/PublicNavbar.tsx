@@ -19,46 +19,30 @@ const PublicNavbar = () => {
   const isDark = theme === 'dark';
 
   return (
-    <nav className={`relative md:sticky md:top-0 w-full z-50 backdrop-blur-lg border-b transition-all duration-300 ${isDark
-        ? 'bg-surface-dark/80 border-primary-500/10'
-        : 'bg-white/80 border-slate-200'
-      }`}>
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3 md:px-8 md:py-4">
-        <Link href="/" className={`text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-secondary-600`}>
-          TodoMaster
+    <nav className="relative md:sticky md:top-0 w-full z-50 backdrop-blur-xl border-b border-primary-500/10 bg-surface-dark/90 px-4 transition-all duration-300">
+      <div className="max-w-7xl mx-auto flex justify-between items-center py-4 md:py-6">
+        <Link href="/" className="group flex items-center space-x-2">
+          <div className="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center shadow-mist group-hover:shadow-mist-premium transition-all duration-500">
+            <span className="text-white font-black text-xl italic">T</span>
+          </div>
+          <span className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-primary-100 tracking-tighter italic">
+            TodoMaster
+          </span>
         </Link>
 
-        <div className="flex items-center gap-4 md:gap-6">
-          <button
-            onClick={() => setTheme(isDark ? 'light' : 'dark')}
-            className={`p-2 rounded-lg transition-colors ${isDark
-              ? 'bg-slate-800 hover:bg-slate-700 text-yellow-400'
-              : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
-              }`}
-            aria-label="Toggle theme"
-          >
-            {isDark ? (
-              <Sun className="w-5 h-5" />
-            ) : (
-              <Moon className="w-5 h-5" />
-            )}
-          </button>
-
+        <div className="flex items-center gap-2 md:gap-8">
           <Link
             href="/login"
-            className={`px-4 py-2 rounded-xl font-semibold transition-colors ${isDark
-              ? 'text-slate-300 hover:text-white'
-              : 'text-slate-600 hover:text-slate-900'
-              }`}
+            className="hidden sm:block text-slate-400 hover:text-primary-400 font-bold transition-all duration-300 text-sm uppercase tracking-widest px-4 py-2"
           >
-            Sign In
+            Entry
           </Link>
 
           <Link
             href="/register"
-            className="px-6 py-2.5 rounded-xl font-bold bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg transition-all duration-300"
+            className="premium-button bg-primary-500 hover:bg-primary-400 text-white !py-3 !px-8 text-[10px]"
           >
-            Get Started
+            Initialize Account
           </Link>
         </div>
       </div>

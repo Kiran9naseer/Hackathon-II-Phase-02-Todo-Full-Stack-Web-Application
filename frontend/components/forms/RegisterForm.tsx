@@ -61,26 +61,19 @@ export function RegisterForm() {
   const isDark = theme === 'dark';
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
       {error && (
-        <div
-          className={`p-4 text-sm border rounded-xl animate-pulse ${
-            isDark
-              ? 'text-red-400 bg-red-900/30 border-red-800'
-              : 'text-red-600 bg-red-50 border-red-100'
-          }`}
-          role="alert"
-        >
-          {error}
+        <div className="p-4 text-xs font-black uppercase tracking-widest border border-red-500/20 bg-red-500/5 text-red-500 rounded-xl animate-pulse italic">
+          !! Error: {error}
         </div>
       )}
 
-      <div className="space-y-1.5">
-        <Label htmlFor="name" className={`font-semibold ml-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Full Name</Label>
+      <div className="space-y-2">
+        <Label htmlFor="name" className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-50/30 ml-1 italic">Operative Codename</Label>
         <Input
           id="name"
           type="text"
-          placeholder="John Doe"
+          placeholder="Identity Label"
           className="premium-input w-full"
           autoComplete="name"
           disabled={isLoading}
@@ -88,28 +81,25 @@ export function RegisterForm() {
         />
       </div>
 
-      <div className="space-y-1.5">
-        <Label htmlFor="email" className={`font-semibold ml-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email Address</Label>
+      <div className="space-y-2">
+        <Label htmlFor="email" className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-50/30 ml-1 italic">Network Endpoint</Label>
         <Input
           id="email"
           type="email"
-          placeholder="you@company.com"
+          placeholder="id@network.com"
           className="premium-input w-full"
           autoComplete="email"
           disabled={isLoading}
           {...register("email")}
-          aria-invalid={errors.email ? "true" : "false"}
         />
         {errors.email && (
-          <p className={`text-xs font-medium ml-1 ${isDark ? 'text-red-400' : 'text-red-500'}`} role="alert">
-            {errors.email.message}
-          </p>
+          <p className="text-[10px] text-red-500 font-bold ml-1 italic uppercase tracking-wider">{errors.email.message}</p>
         )}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="password" className={`font-semibold ml-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Password</Label>
+        <div className="space-y-2">
+          <Label htmlFor="password" className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-50/30 ml-1 italic">Identity Logic</Label>
           <Input
             id="password"
             type="password"
@@ -118,17 +108,14 @@ export function RegisterForm() {
             autoComplete="new-password"
             disabled={isLoading}
             {...register("password")}
-            aria-invalid={errors.password ? "true" : "false"}
           />
           {errors.password && (
-            <p className={`text-xs font-medium ml-1 ${isDark ? 'text-red-400' : 'text-red-500'}`} role="alert">
-              {errors.password.message}
-            </p>
+            <p className="text-[10px] text-red-500 font-bold ml-1 italic uppercase tracking-wider">{errors.password.message}</p>
           )}
         </div>
 
-        <div className="space-y-1.5">
-          <Label htmlFor="confirmPassword" className={`font-semibold ml-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Confirm</Label>
+        <div className="space-y-2">
+          <Label htmlFor="confirmPassword" className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-50/30 ml-1 italic">Verification</Label>
           <Input
             id="confirmPassword"
             type="password"
@@ -137,37 +124,22 @@ export function RegisterForm() {
             autoComplete="new-password"
             disabled={isLoading}
             {...register("confirmPassword")}
-            aria-invalid={errors.confirmPassword ? "true" : "false"}
           />
           {errors.confirmPassword && (
-            <p className={`text-xs font-medium ml-1 ${isDark ? 'text-red-400' : 'text-red-500'}`} role="alert">
-              {errors.confirmPassword.message}
-            </p>
+            <p className="text-[10px] text-red-500 font-bold ml-1 italic uppercase tracking-wider">{errors.confirmPassword.message}</p>
           )}
         </div>
       </div>
 
-      <Button type="submit" className="premium-button w-full bg-secondary-600 hover:bg-secondary-700 text-white mt-2" disabled={isLoading}>
+      <Button type="submit" className="premium-button w-full bg-primary-500 text-white hover:bg-primary-400 mt-4" disabled={isLoading}>
         {isLoading ? (
           <div className="flex items-center justify-center space-x-2">
             <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"></span>
             <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
             <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
           </div>
-        ) : "Create Master Account"}
+        ) : "Initialize Operative Profile"}
       </Button>
-
-      <p className={`text-center text-sm font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-        Already registered?{" "}
-        <Link
-          href="/login"
-          className={`font-bold hover:underline underline-offset-4 decoration-2 transition-colors ${
-            isDark ? 'text-secondary-400 hover:text-secondary-300' : 'text-secondary-600 hover:text-secondary-700'
-          }`}
-        >
-          Sign in here
-        </Link>
-      </p>
     </form>
   );
 }
